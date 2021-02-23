@@ -95,13 +95,21 @@ if __name__ == "__main__":
     tokens_freq = pickle.load(file2)        
     file3 = open('file_info.pkl','rb')
     file_info = pickle.load(file3) 
-    inverted_index = {}     
-    for word in tokens:
-        inverted_index[word] = linked_list()  
-    inverted_index = buildIndex('stories/*',inverted_index)          
-    for word in inverted_index.keys():
+    file4 = open('inverted_index.pkl','rb')
+    inverted_index = pickle.load(file4) 
+    # inverted_index = {}     
+    # for word in tokens:
+    #     inverted_index[word] = linked_list()  
+    # inverted_index = buildIndex('stories/*',inverted_index)
+    # f = open('inverted_index.pkl','wb')
+    # pickle.dump(inverted_index,f)
+    # f.close()  
+    i = 1
+    for word in sorted(inverted_index.keys()):
         print(word)
         display(inverted_index[word],file_info)
-        break
+        if i==5:
+            break
+        i += 1
 
 
