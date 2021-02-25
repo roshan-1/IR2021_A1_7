@@ -46,10 +46,10 @@ def process(path):
                         doc = file.read() #reading contents of doc        
                         doc = delete_spec_chars(str(doc)) #deleting special characters
                         doc = re.sub(r'\d+','',doc) #deleting numbers
-                        tokens = word_tokenize(doc) #extracting tokens
-                        tokens_without_stopwords = [word.lower() for word in tokens if word not in stop_words] #Removing stopwords 
-                        tokens_large = [word for word in tokens_without_stopwords if len(word) > 1]                                  
-                        tokens_final = lematize(tokens_large)
+                        tokens = word_tokenize(doc) #extracting tokens                      
+                        tokens_lower = [word.lower() for word in tokens] #Removing stopwords                                   
+                        tokens_lematized = lematize(tokens_lower)
+                        tokens_final = [word for word in tokens_lematized if word not in stop_words and len(word) > 1]
                         file_info[doc_id] = os.path.basename(fpath1)
                         doc_id += 1
                         uq_dict = find_unique(tokens_final)
@@ -65,9 +65,9 @@ def process(path):
             doc = delete_spec_chars(str(doc)) #deleting special characters
             doc = re.sub(r'\d+','',doc) #deleting numbers
             tokens = word_tokenize(doc) #extracting tokens
-            tokens_without_stopwords = [word.lower() for word in tokens if word not in stop_words] #Removing stopwords 
-            tokens_large = [word for word in tokens_without_stopwords if len(word) > 1]                                  
-            tokens_final = lematize(tokens_large)
+            tokens_lower = [word.lower() for word in tokens] #Removing stopwords                                   
+            tokens_lematized = lematize(tokens_lower)
+            tokens_final = [word for word in tokens_lematized if word not in stop_words and len(word) > 1]
             file_info[doc_id] = os.path.basename(fpath)
             doc_id += 1
             uq_dict = find_unique(tokens_final)
