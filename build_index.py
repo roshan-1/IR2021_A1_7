@@ -40,8 +40,9 @@ def buildIndex(path,inverted_index):
                         doc = delete_spec_chars(str(doc)) #deleting special characters
                         doc = re.sub(r'\d+','',doc) #deleting numbers
                         tokens = word_tokenize(doc) #extracting tokens
-                        tokens_without_stopwords = [word.lower() for word in tokens if word not in stop_words and len(word) > 1] #Removing stopwords                                                           
-                        tokens_final = lematize(tokens_without_stopwords)                        
+                        tokens_without_stopwords = [word.lower() for word in tokens if word not in stop_words] #Removing stopwords 
+                        tokens_large = [word for word in tokens_without_stopwords if len(word) > 1]                                  
+                        tokens_final = lematize(tokens_large)                        
                         uq_dict = find_unique(tokens_final)
                         for word in uq_dict.keys():
                             new_node = node(doc_id,uq_dict[word])
@@ -63,8 +64,9 @@ def buildIndex(path,inverted_index):
             doc = delete_spec_chars(str(doc)) #deleting special characters
             doc = re.sub(r'\d+','',doc) #deleting numbers
             tokens = word_tokenize(doc) #extracting tokens
-            tokens_without_stopwords = [word.lower() for word in tokens if word not in stop_words and len(word) > 1] #Removing stopwords                    
-            tokens_final = lematize(tokens_without_stopwords)                        
+            tokens_without_stopwords = [word.lower() for word in tokens if word not in stop_words] #Removing stopwords 
+            tokens_large = [word for word in tokens_without_stopwords if len(word) > 1]                                  
+            tokens_final = lematize(tokens_large)                     
             uq_dict = find_unique(tokens_final)
             for word in uq_dict.keys():
                 new_node = node(doc_id,uq_dict[word])
@@ -78,17 +80,17 @@ def buildIndex(path,inverted_index):
     return inverted_index
 
 if __name__ == "__main__":
-    # unique_words,unique_words_dict,file_info = process('stories/*') 
-    # print(len(unique_words),len(unique_words_dict),len(file_info))
-    # f = open('tokens.pkl','wb')
-    # pickle.dump(unique_words,f)
-    # f.close()
-    # f1 = open('token_freq.pkl','wb')
-    # pickle.dump(unique_words_dict,f1)
-    # f1.close()   
-    # f2 = open('file_info.pkl','wb')
-    # pickle.dump(file_info,f2)
-    # f2.close()       
+    unique_words,unique_words_dict,file_info = process('stories/*') 
+    print(len(unique_words),len(unique_words_dict),len(file_info))
+    f = open('tokens.pkl','wb')
+    pickle.dump(unique_words,f)
+    f.close()
+    f1 = open('token_freq.pkl','wb')
+    pickle.dump(unique_words_dict,f1)
+    f1.close()   
+    f2 = open('file_info.pkl','wb')
+    pickle.dump(file_info,f2)
+    f2.close()       
     file1 = open('tokens.pkl','rb')
     tokens = pickle.load(file1)
     file2 = open('token_freq.pkl','rb')
@@ -97,13 +99,13 @@ if __name__ == "__main__":
     file_info = pickle.load(file3) 
     file4 = open('inverted_index.pkl','rb')
     inverted_index = pickle.load(file4) 
-    # inverted_index = {}     
-    # for word in tokens:
-    #     inverted_index[word] = linked_list()  
-    # inverted_index = buildIndex('stories/*',inverted_index)
-    # f = open('inverted_index.pkl','wb')
-    # pickle.dump(inverted_index,f)
-    # f.close()  
+    inverted_index = {}     
+    for word in tokens:
+        inverted_index[word] = linked_list()  
+    inverted_index = buildIndex('stories/*',inverted_index)
+    f = open('inverted_index.pkl','wb')
+    pickle.dump(inverted_index,f)
+    f.close()  
     i = 1
     for word in sorted(inverted_index.keys()):
         print(word)
