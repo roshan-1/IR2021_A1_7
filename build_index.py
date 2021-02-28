@@ -1,12 +1,14 @@
 from preprocess import *
 import pickle
 
+#Inverted Index Node
 class node:
     def __init__(self,doc_id,freq=0):
         self.doc_id = doc_id
         self.freq = freq
         self.next = None
 
+#Inverted Index List
 class linked_list:
     def __init__(self, head=None, tail=None):
         self.head = head
@@ -24,10 +26,10 @@ class linked_list:
 
     def display(self,file_info):
         temp = self.head
-        print(self.len)
         while(temp):
-            print(temp.doc_id,temp.freq,file_info[temp.doc_id])
+            print("Doc Id ", temp.doc_id, "Doc Name ", file_info[temp.doc_id])
             temp = temp.next
+
 
 
 def buildIndex(path,inverted_index, universal_list):
@@ -55,7 +57,7 @@ def buildIndex(path,inverted_index, universal_list):
                         tokens_lematized = lematize(tokens_lower)
                         tokens_final = [word for word in tokens_lematized if word not in stop_words and len(word) > 1]              
                         uq_dict = find_unique(tokens_final)
-                        for word in uq_dict.keys():
+                        for word in uq_dict.keys(): #Adding the document details for word as node in Inverted Index List
                             inverted_index[word].append(doc_id,uq_dict[word]) 
                         doc_id += 1                        
             else:
@@ -75,28 +77,28 @@ def buildIndex(path,inverted_index, universal_list):
             tokens_final = [word for word in tokens_lematized if word not in stop_words and len(word) > 1]                       
             uq_dict = find_unique(tokens_final)
             for word in uq_dict.keys():
-                inverted_index[word].append(doc_id,uq_dict[word]) 
+                inverted_index[word].append(doc_id,uq_dict[word]) #Adding the document details for word as node in Inverted Index List
             doc_id += 1
     return inverted_index, universal_list
 
 if __name__ == "__main__":
     universal_list = linked_list()    
-    # unique_words,unique_words_dict,file_info = process('stories/*') 
-    # f = open('tokens.pkl','wb')
-    # pickle.dump(unique_words,f)
-    # f.close()
-    # f1 = open('token_freq.pkl','wb')
-    # pickle.dump(unique_words_dict,f1)
-    # f1.close()   
-    # f2 = open('file_info.pkl','wb')
-    # pickle.dump(file_info,f2)
-    # f2.close()      
-    file1 = open('tokens.pkl','rb')
-    tokens = pickle.load(file1)
-    file2 = open('token_freq.pkl','rb')
-    tokens_freq = pickle.load(file2)        
-    file3 = open('file_info.pkl','rb')
-    file_info = pickle.load(file3)       
+    unique_words,unique_words_dict,file_info = process('stories/*') 
+    f = open('tokens.pkl','wb')
+    pickle.dump(unique_words,f)
+    f.close()
+    f1 = open('token_freq.pkl','wb')
+    pickle.dump(unique_words_dict,f1)
+    f1.close()   
+    f2 = open('file_info.pkl','wb')
+    pickle.dump(file_info,f2)
+    f2.close()      
+    # file1 = open('tokens.pkl','rb')
+    # tokens = pickle.load(file1)
+    # file2 = open('token_freq.pkl','rb')
+    # tokens_freq = pickle.load(file2)        
+    # file3 = open('file_info.pkl','rb')
+    # file_info = pickle.load(file3)       
     # inverted_index = {}     
     # for word in tokens:
     #     inverted_index[word] = linked_list()  
@@ -111,13 +113,6 @@ if __name__ == "__main__":
     # inverted_index = pickle.load(file4)   
     # file5 = open('overall_postinglist.pkl','rb')
     # universal_list = pickle.load(file5)   
-    # i = 1
-    # for word in sorted(inverted_index.keys()):
-    #     print(word)
-    #     inverted_index[word].display(file_info)
-    #     if i==50:
-    #         break
-    #     i += 1    
-       
+
 
 

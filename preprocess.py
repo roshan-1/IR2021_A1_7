@@ -18,7 +18,6 @@ def find_unique(words): #function to find unique words along with its frequency 
     word_freq = {}
     for word in unique_words:
         word_freq[word] = words.count(word)
-        #word_freq[word] += 1
     return word_freq
 
 def lematize(words): #lematization
@@ -79,8 +78,9 @@ def process(path):
 
 def process_query(query):
     tokens = word_tokenize(query)
-    tokens_without_stopwords = [word.lower() for word in tokens if word not in stop_words and len(word) > 1] #Removing stopwords                                   
-    tokens_final = lematize(tokens_without_stopwords)
+    tokens_lower = [word.lower() for word in tokens]
+    tokens_lematized = lematize(tokens_lower)
+    tokens_final = [word for word in tokens_lematized if word not in stop_words and len(word) > 1]                               
     return ' '.join(tokens_final)
 
 
